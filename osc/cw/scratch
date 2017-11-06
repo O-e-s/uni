@@ -9,9 +9,7 @@ void listRemove(struct process **head) {
 
 // Print out linked list of processes
 void listPrint(struct process *head) {
-  int i = 0;
   do {
     printf("ID=%d BurstTime=%d\n", head->iProcessId, head->iBurstTime);
-    i++;
   } while ((head = head->oNext));
 }
