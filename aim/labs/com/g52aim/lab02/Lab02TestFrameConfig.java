@@ -7,28 +7,28 @@ public class Lab02TestFrameConfig extends TestFrameConfig {
 	/**
 	 * permitted total runs = 11
 	 */
-	protected final int TOTAL_RUNS  = 11;
-	
+	protected final int TOTAL_RUNS  = 30;
+
 	/**
 	 * permitted instance ID's = 2
 	 */
-	protected final int INSTANCE_ID = 2;
-	
+	protected final int INSTANCE_ID = 5;
+
 	/**
 	 * permitted run times (seconds) = 15
 	 */
-	protected final int RUN_TIME = 15;
-	
+	protected final int RUN_TIME = 20;
+
 	/**
 	 * permitted values = 1, 2, 3, 4, 5
 	 */
-	protected final int depthOfSearch = 2;
-	
+	protected final int depthOfSearch = 1;
+
 	/**
 	 * permitted values = 1, 2, 3, 4, 5
 	 */
-	protected final int intensityOfMutation = 2;
-	
+	protected final int intensityOfMutation = 5;
+
 	@Override
 	public int getTotalRuns() {
 		return this.TOTAL_RUNS;
@@ -53,11 +53,11 @@ public class Lab02TestFrameConfig extends TestFrameConfig {
 	public String getConfigurationAsString() {
 		return "intensityOfMutation = " + intensityOfMutation + " and depthOfSearch = " + depthOfSearch;
 	}
-	
+
 	public int getDepthOfSearch() {
 		return this.depthOfSearch;
 	}
-	
+
 	public int getIntensityOfMutation() {
 		return this.intensityOfMutation;
 	}
