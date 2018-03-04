@@ -7,7 +7,7 @@ public class Lab02TestFrameConfig extends TestFrameConfig {
 	/**
 	 * permitted total runs = 11
 	 */
-	protected final int TOTAL_RUNS  = 30;
+	protected final int TOTAL_RUNS = 30;
 
 	/**
 	 * permitted instance ID's = 2
