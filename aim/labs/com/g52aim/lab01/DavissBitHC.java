@@ -45,7 +45,7 @@ public class DavissBitHC extends SATHeuristic {
       problem.bitFlip(perm[j], CURRENT_SOLUTION_INDEX);
       double tmpEval = evaluate(problem);
 
-      if (tmpEval < bestEval) {
+      if (tmpEval <= bestEval) {
         bestEval = tmpEval;
       } else {
         problem.bitFlip(perm[j], CURRENT_SOLUTION_INDEX);

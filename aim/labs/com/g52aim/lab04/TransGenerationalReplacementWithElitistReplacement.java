@@ -36,10 +36,9 @@ public class TransGenerationalReplacementWithElitistReplacement extends Populati
         worstIndex = -1;
     double worstFitness = 0;
 
-    for (int i=0; i < (populationSize -1) *2; i++) {
+    for (int i=0; i < (populationSize) *2; i++) {
       double fitness = problem.getObjectiveFunctionValue(i);
       if (fitness == problem.getBestSolutionValue()) {
-        // does getBest include problems past POPULATION_SIZE?
         // find best index
         bestIndex = i;
       } else if (fitness >= worstFitness && i >= populationSize) {

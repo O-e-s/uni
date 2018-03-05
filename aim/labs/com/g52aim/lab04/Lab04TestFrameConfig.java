@@ -20,7 +20,7 @@ public class Lab04TestFrameConfig extends TestFrameConfig {
 	/*
 	 * permitted total runs = 11, 30
 	 */
-	protected final int TOTAL_RUNS  = 5;
+	protected final int TOTAL_RUNS = 30;
 
 	/*
 	 * permitted instance ID's = 1
@@ -73,7 +73,7 @@ public class Lab04TestFrameConfig extends TestFrameConfig {
 	public enum Mode {
 
 		GA (2500),
-		MA (100);
+		MA (75);
 
 		private final int generations;
 
