@@ -1,4 +1,5 @@
 package com.g52aim.lab04;
+import com.g52aim.ArrayMethods;
 
 import java.util.Random;
 import java.util.Arrays;
@@ -32,30 +33,34 @@ public class TournamentSelection {
 	  * index = indexOf(bestSolution);
 	  * return index;
 	  */
-	public int tournamentSelection(int tournamentSize) {
+  public int tournamentSelection(int tournamentSize) {
 
 		int bestIndex = -1;
 		double bestFitness = Double.MAX_VALUE;
 
-    // Insert tournamentSize problem indices into array
-    // Randomly choose from population, check it's not already in array
-    int[] tournament = new int[tournamentSize];
-    int i = 0;
-    while (tournament.length < tournamentSize) {
-      int randomSolution = rng.nextInt(POPULATION_SIZE);
-      if (Arrays.asList(tournament).contains(randomSolution))
-        continue;
+		// TODO implementation of tournament selection with controllable tournament size
+		int[] solutions = new int[tournamentSize];
+		int[] pop = new int[POPULATION_SIZE];
+		//---------------
+		for(int i = 0; i < POPULATION_SIZE; i++)
+		{
+			pop[i] = i;
+		}
 
-      tournament[i++] = randomSolution;
-    }
+		pop = ArrayMethods.shuffle(pop, rng);
 
-    for (int index : tournament) {
-      double fitness = problem.getObjectiveFunctionValue(index);
-      if (fitness < bestFitness) {
-        bestIndex = index;
-        bestFitness = fitness;
-      }
-    }
+		for(int i = 0; i < tournamentSize; i++)
+		{
+			solutions[i] = pop[i];
+		}
+
+
+		for(int i = 0; i < tournamentSize; i++) {
+			if(problem.getObjectiveFunctionValue(solutions[i]) < bestFitness) {
+				bestIndex = solutions[i];
+				bestFitness = problem.getObjectiveFunctionValue(solutions[i]);
+			}
+		}
 
 		return bestIndex;
 	}

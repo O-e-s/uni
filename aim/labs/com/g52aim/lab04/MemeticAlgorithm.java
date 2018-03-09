@@ -54,28 +54,27 @@ public class MemeticAlgorithm extends PopulationBasedSearchMethod {
 	  */
 	public void runMainLoop() {
     // Track index of last child
-    int lastChild = POPULATION_SIZE -1;
+    int lastChild = POPULATION_SIZE;
 
     for (int i=0; i < POPULATION_SIZE / 2; i++) {
       int parent1, parent2;
+      int child1 = lastChild++;
+      int child2 = lastChild++;
+
       // parent selection
       parent1 = tournamentSelection(3);
       parent2 = tournamentSelection(3);
 
+      // local search on children
+      localSearch.applyHeuristic(parent1);
+      localSearch.applyHeuristic(parent2);
+
       // crossover
-      crossover.applyHeuristic(parent1, parent2,
-        lastChild +1, lastChild +2);
+      crossover.applyHeuristic(parent1, parent2, child1, child2);
 
       // child mutation
-      mutation.applyHeuristic(lastChild +1);
-      mutation.applyHeuristic(lastChild +2);
-
-      // local search on children
-      localSearch.applyHeuristic(lastChild +1);
-      localSearch.applyHeuristic(lastChild +2);
-
-      // Increment last child index
-      lastChild += 2;
+      mutation.applyHeuristic(child1);
+      mutation.applyHeuristic(child2);
     }
 
     // population replacement

@@ -29,34 +29,32 @@ public class TransGenerationalReplacementWithElitistReplacement extends Populati
 	 * OUTPUT: next_pop; // return the indices of the next population
 	 */
 	@Override
-	protected int[] getNextGeneration(SAT problem, int populationSize) {
+  protected int[] getNextGeneration(SAT problem, int populationSize) {
+
 		int[] population = new int[populationSize];
+		int worstIndex = populationSize-1;
+		int bestIndex = -1;
 
-    int bestIndex = Integer.MAX_VALUE,
-        worstIndex = -1;
-    double worstFitness = 0;
+		// TODO implementation of replacement scheme
+		for(int i = populationSize; i < populationSize*2; i++)
+		{
+			population[i-populationSize] = i;
+		}
 
-    for (int i=0; i < (populationSize) *2; i++) {
-      double fitness = problem.getObjectiveFunctionValue(i);
-      if (fitness == problem.getBestSolutionValue()) {
-        // find best index
-        bestIndex = i;
-      } else if (fitness >= worstFitness && i >= populationSize) {
-        // Track worst child
-        worstIndex = i;
-        worstFitness = fitness;
-      }
+		for(int i = 0; i < populationSize; i++)
+		{
+			if(problem.getObjectiveFunctionValue(i) == problem.getBestSolutionValue()) {
+				bestIndex = i;
+			}
+			if(problem.getObjectiveFunctionValue(i+populationSize) > problem.getObjectiveFunctionValue(worstIndex)) {
+				worstIndex = i;
+			}
+		}
 
-      if (i >= populationSize) {
-        // Place children into new population
-        population[i -populationSize] = i;
-      }
-    }
-
-    if (bestIndex < populationSize) {
-      // Replace worst child with best (in parents)
-      population[worstIndex -populationSize] = bestIndex;
-    }
+		if(bestIndex < populationSize && bestIndex >= 0 && worstIndex != populationSize-1)
+		{
+			population[worstIndex] = bestIndex;
+		}
 
 		return population;
 	}
