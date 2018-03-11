@@ -55,11 +55,11 @@ public class SimpleInheritanceMethod implements MemeplexInheritanceMethod {
     if (val1 == val2) {
       int from = rng.nextDouble() < 0.5 ? parent1 : parent2;
       inheritMemeplex(from, child1);
-      inheritMemeplex(from, child1);
+      inheritMemeplex(from, child2);
     } else {
       int from = val1 < val2 ? parent1 : parent2;
       inheritMemeplex(from, child1);
-      inheritMemeplex(from, child1);
+      inheritMemeplex(from, child2);
     }
 	}
 

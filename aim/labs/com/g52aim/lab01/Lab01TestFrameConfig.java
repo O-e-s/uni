@@ -17,12 +17,12 @@ public class Lab01TestFrameConfig extends TestFrameConfig {
 	/*
 	 * permitted instance ID's = 1, 9
 	 */
-	protected final int INSTANCE_ID = 1;
+	protected final int INSTANCE_ID = 2;
 
 	/*
 	 * permitted run times (seconds) = 1, 5, 10, 20
 	 */
-	protected final int RUN_TIME = 20;
+	protected final int RUN_TIME = 15;
 
 	/*
 	 * name to give to your box plot title

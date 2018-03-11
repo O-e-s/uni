@@ -152,7 +152,7 @@ public class MultiMeme extends PopulationBasedSearchMethod {
 	 */
 	public void performMutationOfMemeplex(int solutionIndex) {
 		for (int i = 0; i < problem.getNumberOfMemes(); i++) {
-			if (rng.nextDouble() > innovationRate) continue;
+			if (rng.nextDouble() >= innovationRate) continue;
       Meme meme = problem.getMeme(solutionIndex, i);
 			meme.setMemeOption(
           rng.nextInt(meme.getTotalOptions()));

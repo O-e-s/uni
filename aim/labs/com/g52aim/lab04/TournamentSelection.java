@@ -1,10 +1,10 @@
 package com.g52aim.lab04;
-import com.g52aim.ArrayMethods;
 
 import java.util.Random;
 import java.util.Arrays;
 
 import g52aim.domains.chesc2014_SAT.SAT;
+import g52aim.helperfunctions.ArrayMethods;
 
 /**
  * @author Warren G. Jackson
