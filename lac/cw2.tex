@@ -1,0 +1,198 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{qtree}
+\usepackage{forest}
+\usepackage{multicol}
+\newcommand{\first}{\mathrm{first}}
+\newcommand{\follow}{\mathrm{follow}}
+\begin{document}
+
+\begin{enumerate}
+  \item % 1
+  \begin{enumerate}
+    \item % a
+    \begin{enumerate}
+      \begin{multicols}{2}
+      \item % i
+      \begin{align*}
+        S &\Rightarrow XY \\
+          &\Rightarrow abY \\
+          &\Rightarrow abcd
+      \end{align*}
+      \columnbreak
+
+      \item % ii
+      \begin{align*}
+        S &\Rightarrow YX \\
+          &\Rightarrow cXdX \\
+          &\Rightarrow caYbdX \\
+          &\Rightarrow cacdbdX \\
+          &\Rightarrow cacdbdaYb \\
+          &\Rightarrow cacdbdacdb \\
+      \end{align*}
+      \end{multicols}
+    \end{enumerate}
+
+    \item % b
+    \begin{align*}
+    \begin{forest}
+    [$S$ [$Y$ [$c$]
+              [$X$ [$a$]
+                   [$Y$ [$c$]
+                        [$d$]]
+                   [$b$]]
+                     [$d$]]
+         [$X$ [$a$]
+              [$Y$ [$c$]
+                   [$d$]]
+              [$b$]]]
+    \end{forest}
+    \end{align*}
+
+    \item % c
+      Since $X \rightarrow aYb$ and $Y \rightarrow cXd$, there is no way for
+      any word $w \in L(G)$ to have two of the same symbol adjacent to one
+      another. \\
+      Since $abccdd$ contains two such adjacencies --- $cc$ and $dd$ --- this
+      word cannot be in the language of $G$.
+  \end{enumerate}
+
+  \item % 2
+  \begin{enumerate}
+    \item % a
+    \begin{align*}
+      E   &\rightarrow E < E \mid E_1 \\
+      E_1 &\rightarrow E_1 \oplus E_2 \mid E_2 \\
+      E_2 &\rightarrow E_2 \otimes E_3 \mid E_3 \\
+      E_3 &\rightarrow E_4 \uparrow E_3 \mid E_4 \\
+      E_4 &\rightarrow (E) \mid N \\
+      N   &\rightarrow 0 \mid N_1 \mid -N_1 \\
+      N_1 &\rightarrow N_2 \mid N_2N_3 \\
+      N_2 &\rightarrow 1 \mid 2 \mid 3 \mid 4 \mid 5 \mid 6 \mid 7 \mid 8
+        \mid 9 \mid N_3N_3 \\
+      N_3 &\rightarrow 0 \mid N_2
+    \end{align*}
+
+    \item % b
+    \begin{align*}
+    \begin{forest}
+    [$E$ [$E$ [$E_1$ [$E_2$ [$E_3$ [$E_4$ [$N$ [$N_1$ [$N_2$ [4]]
+                                                      [$N_3$ [$N_2$ [2]]]]]]]]]]
+         [$<$]
+         [$E$ [$E_1$ [$E_2$ [$E_2$ [$E_2$ [$E_3$ [$E_4$ [$N$ [$N_1$ [$N_2$ [0]]]]]]]
+                            [$\otimes$]
+                            [$E_3$ [$E_4$ [$N$ [$-$]
+                                               [$N_1$ [$N_2$ [1]]
+                                                      [$N_3$ [0]]]]]]]
+                     [$\otimes$]
+                     [$E_3$ [$E_4$ [$($]
+                                   [$E$ [$E_1$ [$E_1$ [$E_2$ [$E_3$ [$E_4$ [$N$ [$N_1$ [$N_2$ [1]]]]]]]]
+                                               [$\oplus$]
+                                               [$E_2$ [$E_3$ [$E_4$ [$N$ [$N_1$ [$N_2$ [7]]]]]]]]]
+                                   [$)$]]
+                            [$\uparrow$]
+                            [ $E_3$ [$E_4$ [$N$ [$N_1$ [$N_2$ [2]]]]]]]]]]]
+    \end{forest}
+    \end{align*}
+
+  \end{enumerate}
+
+  \item % 3
+  \begin{enumerate}
+    \item % a
+      $N_\epsilon = \{S,A,B,C\}$ \\
+      For the subset $\{A,B,C\}$ each can directly produce $\epsilon$,
+      and thus are nullable nonterminals. \\
+      Since $S \Rightarrow AB$ and $AB$ is nullable, it is also a nullable
+      nonterminable.
+
+    \newpage
+    \item %b
+    \begin{multicols}{2}
+    \begin{align*}
+      D &\Rightarrow dC \\
+      D &\Rightarrow e \\
+      \therefore \first(D) &= \{d,e\} \\
+      \smallskip \\
+      C &\Rightarrow cD \\
+      \therefore \first(C) &= \{c\} \\
+      \smallskip \\
+      B &\Rightarrow BCDb \\
+      B &\xRightarrow{*} \epsilon \\
+      C &\xRightarrow{*} \epsilon \\
+      \therefore \first(B) &= \first(C) \cup \first(D) \\
+                           &= \{c\} \cup \{d,e\} \\
+                           &= \{c,d,e\} \\
+      \smallskip \\
+      A &\Rightarrow aA \\
+      \therefore \first(A) &= \{a\} \\
+      \smallskip \\
+      S &\Rightarrow AB \\
+      A &\xRightarrow{*} \epsilon \\
+      \therefore \first(S) &= \first(A) \cup \first(B) \\
+                           &= \{a\} \cup \{c,d,e\} \\
+                           &= \{a,c,d,e\} \\
+    \end{align*}
+
+    \item %c
+    \begin{align*}
+      \follow(S) &\subseteq \follow(S) \\
+      \{\$\} &\subseteq \follow(S) \\
+      \therefore \{\$\} &\subseteq \follow(S) \\
+      \smallskip \\
+      \first(S) &\subseteq \follow(A) \\
+      \first(B) &\subseteq \follow(A) \\
+      \first(\epsilon) &\subseteq \follow(A) \\
+      \follow(A) &\subseteq \follow(A) \\
+      \therefore \first(S) \cup \first(B) &\subseteq \follow(A) \\
+      \smallskip \\
+      \first(CDb) &\subseteq \follow(B) \\
+      \follow(S) &\subseteq \follow(B) \\
+      \{\$\} &\subseteq \follow(B) \\
+      \{\$\} &\subseteq \follow(S) \\
+      \therefore \first(CDb) \cup \follow(S) &\subseteq \follow(B) \\
+      \smallskip \\
+      \first(Db) &\subseteq \follow(C) \\
+      \follow(D) &\subseteq \follow(C) \\
+      \therefore \first(Db) \cup \follow(D) &\subseteq \follow(C) \\
+      \smallskip \\
+      \first(b) &\subseteq \follow(D) \\
+      \follow(C) &\subseteq \follow(D) \\
+      \therefore \first(b) \cup \follow(C) &\subseteq \follow(D) \\
+    \end{align*}
+    \end{multicols}
+
+    \item %d
+    \begin{align*}
+      \follow(S) &= \{\$\} \\
+      \smallskip \\
+      \first(S) &= \{a,c,d,e\} \\
+      \first(B) &= \{c,d,e\} \\
+      \therefore \follow(A) &= \{a,c,d,e\} \cup \{c,d,e\} \\
+                            &= \{a,c,d,e\} \\
+      \smallskip \\
+      \first(CDb) &= \first(C) \cup \first(D) \\
+                  &= \{c\} \cup \{d,e\} \\
+                  &= \{c,d,e\} \\
+      \follow(S)  &= \{\$\} \\
+      \therefore \follow(B) &= \{c,d,e\} \cup \{\$\} \cup \{\$\} \\
+                            &= \{c,d,e,\$\} \\
+      \smallskip \\
+      \first(Db) &= \first(D) \\
+                 &= \{d,e\} \\
+      \follow(D) &= \{b\} \\
+      \therefore \follow(C) &= \{d,e\} \cup \{b\} \\
+                            &= \{b,d,e\} \\
+      \smallskip \\
+      \first(b) &= \{b\} \\
+      \follow(C) &= \{b,d,e\} \\
+      \therefore \follow(D) &= \{b\} \cup \{b,d,e\} \\
+                            &= \{b,d,e\}
+    \end{align*}
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}
