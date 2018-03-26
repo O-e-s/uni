@@ -3,7 +3,7 @@
   - an understanding of a selection of modern heuristic search techniques in AI
   - an understanding of the methods available for use in automated decision
 making & optimisation
-  - an aquantance with a selection of applications and understanding of how
+  - an acquaintance with a selection of applications and understanding of how
 software tools are designed to solve them
 
 - Modern heuristic optimisation/search techniques can...
@@ -249,12 +249,6 @@ etc
 > that provides a set of guidelines or strategies to develop heuristic
 > optimisation algorithms
 
-## Categories
-- Local search:
-- Population-based
-- Constructive
-!! examples
-
 ## Components
 
 ### Representation/encoding
@@ -360,8 +354,8 @@ quality solution
 
 ### Davis' (Bit) Hill-climbing
 1. Create a random solution permutation
-2. For each bit i in the current solution...
-    1. Flip the respective bit in permutation[i]
+2. For each bit `i` in the current solution...
+    1. Flip the respective bit in `permutation[i]`
     2. If the quality has decreased (or is unchanged), undo the flip
 
 ### Random mutation
@@ -396,23 +390,114 @@ optima
 3. Re-perform hill-climbing search (exploitation)
 
 - Perturbation strength is crucial
-  - Too small: cycles may be generated
-  - Too big: good properties of local optima are lost
-
+  - __Too small__: cycles may be generated
+  - __Too big__: good properties of local optima are lost
 - Acceptance criteria
-  - Extreme intensification: accept only improving solution
-  - Extreme diversification: accept any solution
+  - __Extreme intensification__: accept only improving solution
+  - __Extreme diversification__: accept any solution
   - Others including deterministic, probabilistic
-
 - Memory: eg restart after a certain number of non-improving solutions are found
 
 ## Tabu Search
 - Proposed by Fred W. Glover in 1986, formalised in 1989
-- Escape from local minima: Uses history (memory structures)
-  - Inspired by ideas from AI in late 1970s
-- Move operators: Hill climbing / local search
+- Stochastic local search
+- Applies hill climbing / local search
+- Uses _memory_
+
+### Use of memory
+- Enables __escape from local minima__
+- Inspired by ideas from AI in late 1970s
+- __Tabu-list__: contains recent past moves
+  - Stored attributes are often defined by local search moves
+  - Can store minimal amount of information by using attributes of previous
+solutions
+- __Tabu status__: Solutions containing attributes in the Tabu-list are
+forbidden for a number of iterations
   - Assumes no point in accepting a new (poor) solution unless to avoid a path
 already searched
+- __Aspiration criterion__: An optional condition that allows tabu status to
+be overridden (eg if there is an improvement)
+- Simple strategies exploit only short term memory
+- More complex ones exploit long term memory
+- Cycles are avoided by avoiding revisiting previously seen solutions
+
+### Strategies
+- __Forbidding__: controlling what enters the tabu list
+- __Freeing__: controlling what exists the tabu list and when
+- __Short term__: managing interplay between forbidding and freeing to select
+trial solutions
+
+### Algorithm
+- In each step
+  - Generate a list of neighbouring solutions
+  - Find the best of neighbours
+  - Check if _accessible_
+  - If accessible, accept it and replace current solution, otherwise
+continue with next best neighbour
+
+### Design (for MAX-SAT)
+- __Initialisation__: Random
+- __Move operator__: A hill climbing / local search algorithm
+- __Neighbourhood definition__: Eg, attainable by single bit flip
+- __Memory__: Associate tabu status (boolean) with each variable of in problem
+  - tabu = changed in last `T` steps, where `T` is tabu tenure
+  - For each variable `x_i` store number of the search step when it was last
+changed (`t_i`).
+  - tabu = `c - t_i < T`, where c is current search step number
+
+### Considerations & improvements
+- __Tabu tenure__ choice is critical for performance:
+  - __too low__: risk of cycling
+  - __too high__: may restrict search space too much
+  - `T = 7` has been found to be sufficient to prevent cycling
+- If a tabu move is smaller than the _aspiration level_ we accept it
+- Can use intermediate and long-term memory for extra _intensification_ 
+or _diversification_, eg:
+  - Backtrack to elite candidate solutions, resetting tabu list
+  - Freeze certain solution components for a number of steps
+  - Occasionally force rarely used solution components
+  - Extend evaluation function to capture frequency of use of candidate
+solutions (as a ratio of no. of components)
+
+# Scheduling
+> Scheduling: The process of planning, controlling, and optimising work and
+> workloads in a production/manufacturing process
+
+- `i = [1, m]`: Number of machines
+- `j = [1, n]`: Number of jobs
+- `(i,j)`: A processing step (operation) of job `j` on machine `i`
+- `p_ij`: Processing time of job `j` on machine `i`
+- `d_j`: Due date - time job `j` must be completed by
+- `w_j`: Weight - importance of job `j` relative to other ones
+
+## Notation: α | β | γ
+- α: Machine characteristics
+- β: Job characteristics
+- γ: Optimality criteria
+
+### α examples
+- Single machine: `α = 1`
+- Identical machines in parallel: `α = Pm`
+  - Speed of machines is the same
+  - Job `j` requires a single operation and may be process on any of `m`
+machines
+- Different machines in parallel: `α = Qm`
+  - Differences between speeds of the machines
+- Unrelated machines in parallel: `α = Rm`
+  - Machines have different speeds for different jobs
+
+### β examples
+- Release date `r_j`: earliest time at which job `j` can start being processed
+- Sequence dependent startup times `s_jk`: setup time between `j` and `k`
+- Breakdowns `brkdwn`: machines are not continuously available
+- Permutation `prmu`: eg order of queue processing (FIFO)
+
+### γ examples
+- Completion time `C_ij`: of job `j` on machine `i`
+- Time when job exits system `C_j`
+- Lateness of `j` `L_j = C_j - d_j`
+- Tardiness `T_j = max(C_j - d_j, 0)`
+- Unit penalty `U_j = 1 if C_j > d_j otherwise 0`
 
 # Evolutionary algorithms
 
