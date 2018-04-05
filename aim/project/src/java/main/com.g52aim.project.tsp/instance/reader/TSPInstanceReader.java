@@ -41,13 +41,15 @@ public class TSPInstanceReader implements TSPInstanceReaderInterface {
       }
 
       switch (key) {
-        case "DIMENSION":
+        case "DIMENSION": {
           cities = in.nextInt();
           locations = new Location[cities];
           break;
-        case "NODE_COORD_SECTION":
+        }
+        case "NODE_COORD_SECTION": {
           locations = readNodes(in, locations);
           break;
+        }
         default:
       }
 
