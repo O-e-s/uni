@@ -21,12 +21,14 @@ public class TSPObjectiveFunction implements ObjectiveFunctionInterface {
 
 	@Override
 	public double getObjectiveFunctionValue(SolutionRepresentation solution) {
-    double total = 0;
-    for (int i = 0; i < solution.getNumberOfCities() -1; i++) {
-      total += getCost(i, i +1);
-    }
+		double total = 0;
+		int cities = solution.getNumberOfCities();
+		// Wrap around to count first and last cities
+		for (int i = 0; i < cities; i++) {
+			total += getCost(i % cities, (i +1) % cities);
+		}
 
-		return cost;
+		return total;
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class TSPObjectiveFunction implements ObjectiveFunctionInterface {
 
     // Euclidean distance
     return Math.round(
-      Math.sqrt((a.getX() - b.getX())^2 + (a.getY() - b.getY())^2));
+      Math.sqrt(Math.pow(a.getX() - b.getX(), 2) + Math.pow(a.getY() - b.getY(), 2)));
 	}
 
 }
