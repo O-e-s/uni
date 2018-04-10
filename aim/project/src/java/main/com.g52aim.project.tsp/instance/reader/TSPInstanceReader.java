@@ -1,11 +1,12 @@
 package com.g52aim.project.tsp.instance.reader;
 
 
+import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Random;
-import java.util.Scanner;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 import com.g52aim.project.tsp.instance.Location;
 import com.g52aim.project.tsp.instance.TSPInstance;
@@ -19,9 +20,6 @@ import com.g52aim.project.tsp.interfaces.TSPInstanceReaderInterface;
  */
 public class TSPInstanceReader implements TSPInstanceReaderInterface {
 
-  private static final List<String> IGNORE_KEYS
-    = Arrays.asList("NAME", "COMMENT", "TYPE", "EDGE_WEIGHT_TYPE");
-
 	@Override
 	public TSPInstanceInterface readTSPInstance(Path path, Random random) {
 
@@ -30,47 +28,49 @@ public class TSPInstanceReader implements TSPInstanceReaderInterface {
 		int cities = -1;
 		Location[] locations = null;
 
-    Scanner in = new Scanner(path);
-    in.useDelimiter(" : ");
+		Scanner in;
+		try {
+			in = new Scanner(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-    while (in.hasNext()) {
-      String key = in.next();
+		while (in.hasNext()) {
+			in.useDelimiter("\\s*:\\s*|\r\n|\n|\r");
+			String key = in.next();
 
-      if (key == "EOF") {
-        break;
-      }
+			if (key == "EOF") {
+				break;
+			}
 
-      switch (key) {
-        case "DIMENSION": {
-          cities = in.nextInt();
-          locations = new Location[cities];
-          break;
-        }
-        case "NODE_COORD_SECTION": {
-          locations = readNodes(in, locations);
-          break;
-        }
-        default:
-      }
+			switch (key) {
+				case "DIMENSION": {
+					cities = in.nextInt();
+					locations = new Location[cities];
+					break;
+				}
+				case "NODE_COORD_SECTION": {
+					readNodes(in, locations);
+					break;
+				}
+				default:
+			}
 
-      in.nextLine();
-    }
+			in.nextLine();
+		}
 
-    in.close();
+		in.close();
 
-		// create a TSP instance object
-		TSPInstance instance = new TSPInstance(cities, locations, random);
-		return instance;
+		return new TSPInstance(cities, locations, random);
 	}
 
-  private Location[] readNodes(Scanner in, Location[] locations) {
-    in.useDelimiter(" ");
+  private void readNodes(Scanner in, Location[] locations) {
+    in.useDelimiter("\\s*");
     String val;
     for (int i = 0; i < locations.length; i++) {
       in.nextInt();
       locations[i] = new Location(in.nextFloat(), in.nextFloat());
     }
-
-    return locations;
   }
 }
