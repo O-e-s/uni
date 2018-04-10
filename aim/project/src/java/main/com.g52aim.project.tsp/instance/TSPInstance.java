@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.g52aim.project.tsp.TSPObjectiveFunction;
+import com.g52aim.project.tsp.instance.InitialisationMode;
 import com.g52aim.project.tsp.interfaces.ObjectiveFunctionInterface;
 import com.g52aim.project.tsp.interfaces.TSPInstanceInterface;
+import com.g52aim.project.tsp.solution.SolutionRepresentation;
 import com.g52aim.project.tsp.solution.TSPSolution;
 
 /**
@@ -38,17 +40,22 @@ public class TSPInstance implements TSPInstanceInterface {
 
 	@Override
 	public TSPSolution createSolution(InitialisationMode mode) {
-    switch (mode) {
-      case RANDOM: {
-        // Make a list in range [0,numberOfCities -1]
-        List<Integer> perm = IntStream.range(0, numberOfCities -1).boxed()
-          .collect(Collectors.toList());
-        Collections.shuffle(perm);
-        return perm;
-      }
-    }
+		SolutionRepresentation repr = new SolutionRepresentation();
 
-    return null;
+		switch (mode) {
+			case RANDOM: {
+				// Make a list in range [0,numberOfCities -1]
+				List<Integer> perm = IntStream.range(0, numberOfCities -1).boxed()
+					.collect(Collectors.toList());
+				Collections.shuffle(perm);
+				repr.setRepresentationOfSolution(perm.stream().mapToInt(i -> i).toArray());
+				break;
+			}
+		}
+
+		return new TSPSolution(repr,
+			getTSPObjectiveFunction().getObjectiveFunctionValue(repr),
+			repr.getNumberOfCities());
 	}
 
 	@Override

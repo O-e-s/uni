@@ -15,12 +15,12 @@ public class SolutionRepresentation implements SolutionRepresentationInterface<i
   private int[] solution;
 
   @Override
-  public int[] getSolutionRepresentation() {
+  public int[] getRepresentationOfSolution() {
     return solution;
   }
 
   @Override
-  public void setSolutionRepresentation(int[] solution) {
+  public void setRepresentationOfSolution(int[] solution) {
     this.solution = solution;
   }
 
@@ -32,7 +32,7 @@ public class SolutionRepresentation implements SolutionRepresentationInterface<i
   @Override
 	public SolutionRepresentationInterface<int[]> clone() {
     SolutionRepresentation copy = new SolutionRepresentation();
-    copy.setSolutionRepresentation(getSolutionRepresentation());
+    copy.setRepresentationOfSolution(getRepresentationOfSolution());
 		return copy;
 	}
 }
