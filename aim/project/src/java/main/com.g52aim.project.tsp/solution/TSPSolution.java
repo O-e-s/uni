@@ -55,4 +55,9 @@ public class TSPSolution implements TSPSolutionInterface {
 		return new TSPSolution(representation, objectiveFunctionValue,
       numberOfCities);
 	}
+
+  @Override
+  public String toString() {
+    return getSolutionRepresentation().toString();
+  }
 }

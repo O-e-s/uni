@@ -1,5 +1,7 @@
 package com.g52aim.project.tsp.solution;
 
+import java.util.Arrays;
+
 import com.g52aim.project.tsp.interfaces.SolutionRepresentationInterface;
 
 /**
@@ -34,5 +36,10 @@ public class SolutionRepresentation implements SolutionRepresentationInterface<i
     SolutionRepresentation copy = new SolutionRepresentation();
     copy.setRepresentationOfSolution(getRepresentationOfSolution());
 		return copy;
+	}
+
+	@Override
+	public String toString() {
+		return Arrays.toString(solution);
 	}
 }
