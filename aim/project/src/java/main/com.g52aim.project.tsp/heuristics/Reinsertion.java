@@ -6,7 +6,7 @@ import com.g52aim.project.tsp.interfaces.HeuristicInterface;
 import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 /**
- * 
+ *
  * @author Warren G. Jackson
  *
  */
@@ -37,7 +37,7 @@ public class Reinsertion extends HeuristicOperators implements HeuristicInterfac
 	@Override
 	public boolean usesIntensityOfMutation() {
 
-		return false;
+		return true;
 	}
 
 	@Override

@@ -7,13 +7,13 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 
 /**
- * 
+ *
  * @author Warren G. Jackson
  * Performs adjacent swap, returning the first solution with strict improvement
  *
  */
 public class DavissHillClimbing extends HeuristicOperators implements HeuristicInterface {
-	
+
 	public DavissHillClimbing(Random random) {
 
 		super(random);
@@ -45,6 +45,6 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 	@Override
 	public boolean usesDepthOfSearch() {
 
-		return false;
+		return true;
 	}
 }

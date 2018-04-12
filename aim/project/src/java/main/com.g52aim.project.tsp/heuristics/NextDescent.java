@@ -8,22 +8,22 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 
 /**
- * 
+ *
  * @author Warren G. Jackson
  * Performs adjacent swap, returning the first solution with strict improvement
  *
  */
 public class NextDescent extends HeuristicOperators implements HeuristicInterface {
-	
+
 	public NextDescent(Random random) {
-	
+
 		super(random);
 	}
 
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		// TODO implementation of Next Descent using adjacent swap for the 
+		// TODO implementation of Next Descent using adjacent swap for the
 		//	perturbation operator.
 		return -1;
 	}
@@ -47,6 +47,6 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 	@Override
 	public boolean usesDepthOfSearch() {
 
-		return false;
+		return true;
 	}
 }

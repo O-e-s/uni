@@ -6,14 +6,14 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
 
 /**
- * 
+ *
  * @author Warren G. Jackson
  *
  */
 public class OX extends CrossoverHeuristicOperators implements XOHeuristicInterface {
-	
+
 	public OX(Random random) {
-		
+
 		super(random);
 	}
 
@@ -27,7 +27,7 @@ public class OX extends CrossoverHeuristicOperators implements XOHeuristicInterf
 	@Override
 	public double apply(TSPSolutionInterface p1, TSPSolutionInterface p2,
 			TSPSolutionInterface c, double depthOfSearch, double intensityOfMutation) {
-		
+
 		// TODO implementation of ordered crossover
 		return -1;
 	}
@@ -39,13 +39,13 @@ public class OX extends CrossoverHeuristicOperators implements XOHeuristicInterf
 	@Override
 	public boolean isCrossover() {
 
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean usesIntensityOfMutation() {
 
-		return false;
+		return true;
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 import com.g52aim.project.tsp.heuristics.AdjacentSwap;
 import com.g52aim.project.tsp.heuristics.DavissHillClimbing;
+import com.g52aim.project.tsp.heuristics.HeuristicOperators;
 import com.g52aim.project.tsp.heuristics.NextDescent;
 import com.g52aim.project.tsp.heuristics.OX;
 import com.g52aim.project.tsp.heuristics.PMX;
@@ -169,7 +170,6 @@ public class G52AIMTSP extends ProblemDomain {
 	@Override
 	public void setMemorySize(int size) {
 		if (size <= 1) return;
-		System.out.println("size " + size);
 		if (solutions == null) {
 			memSize = size;
 		} else {
