@@ -13,6 +13,7 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
  */
 public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 
+	@SuppressWarnings("serial")
 	private TreeMap<Double,Integer> iomMap = new TreeMap<Double,Integer>() {{
 		put(.0, 1);
 		put(.2, 2);

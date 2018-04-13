@@ -39,6 +39,7 @@ public class HeuristicOperators {
 	* Map the lower bounds of ranges onto the specified number of mutations that
 	* should be performed
 	*/
+	@SuppressWarnings("serial")
 	private TreeMap<Double,Integer> iomMap = new TreeMap<Double,Integer>() {{
 		put(.0, 1);
 		put(.2, 2);
