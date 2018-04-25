@@ -34,6 +34,7 @@ public class SolutionRepresentation implements SolutionRepresentationInterface<i
   @Override
 	public SolutionRepresentationInterface<int[]> clone() {
     SolutionRepresentation copy = new SolutionRepresentation();
+    // TODO ensure it's not the same array instance returned
     copy.setRepresentationOfSolution(getRepresentationOfSolution());
 		return copy;
 	}

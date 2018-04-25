@@ -22,10 +22,11 @@ public class TSPObjectiveFunction implements ObjectiveFunctionInterface {
 	@Override
 	public double getObjectiveFunctionValue(SolutionRepresentation solution) {
 		double total = 0;
-		int cities = solution.getNumberOfCities();
+		int nCities = solution.getNumberOfCities();
+		int[] cities = solution.getRepresentationOfSolution();
 		// Wrap around to count first and last cities
-		for (int i = 0; i < cities; i++) {
-			total += getCost(i % cities, (i +1) % cities);
+		for (int i = 0; i < nCities; i++) {
+			total += getCost(cities[i % nCities], cities[(i +1) % nCities]);
 		}
 
 		return total;

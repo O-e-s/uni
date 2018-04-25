@@ -33,7 +33,7 @@ import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
 public class G52AIMTSP extends ProblemDomain {
 
 	private String[] instanceFiles =
-				{"T81", "circle", "dj38", "plus", "square", "u724"};
+	  {"T81", "circle", "dj38", "plus", "square", "u724"};
 
 	private HeuristicInterface[] heuristics = null;
 
@@ -48,7 +48,6 @@ public class G52AIMTSP extends ProblemDomain {
 	public G52AIMTSP(long seed) {
 		super(seed);
 
-		System.out.println("cons " +memSize);
 		solutions = new ArrayList<>(memSize);
 		setMemorySize(memSize);
 		heuristics = new HeuristicInterface[]{
@@ -81,11 +80,10 @@ public class G52AIMTSP extends ProblemDomain {
 
 	@Override
 	public double applyHeuristic(int hIndex, int parent1Index, int parent2Index, int candidateIndex) {
-		TSPSolutionInterface cand = instance.createSolution(InitialisationMode.RANDOM);
-		solutions.set(candidateIndex, cand);
+		initialiseSolution(candidateIndex);
 		return ((XOHeuristicInterface) heuristics[hIndex]).apply(
 				solutions.get(parent1Index), solutions.get(parent2Index),
-				cand, depthOfSearch, intensityOfMutation);
+				solutions.get(candidateIndex), depthOfSearch, intensityOfMutation);
 	}
 
 	@Override
@@ -200,20 +198,21 @@ public class G52AIMTSP extends ProblemDomain {
 	 */
 	public static void main(String [] args) {
 
-		long seed = 527893l;
+		long seed = 5100l;
 		long timeLimit = 10_000;
 		G52AIMTSP tsp = new G52AIMTSP(seed);
-		HyperHeuristic hh = new SR_IE_HH(seed);
-		tsp.loadInstance( 0 );
-		hh.setTimeLimit(timeLimit);
-		hh.loadProblemDomain(tsp);
-		hh.run();
+		tsp.loadInstance(3);
+		tsp.setDepthOfSearch(0);
 
-		double best = hh.getBestSolutionValue();
-		System.out.println(best);
+		tsp.setMemorySize(2);
+		tsp.initialiseSolution(0);
+		tsp.setIntensityOfMutation(0);
 
-		// TODO you will need to populate this based on your representation!
-		List<Location> routeLocations = new ArrayList<>();
-		SolutionPrinter.printSolution(routeLocations);
+		System.out.println("before\t"+tsp.solutions.get(0));
+		do {
+			tsp.applyHeuristic(5, 0, 0, 1);
+			System.out.println("after\t"+tsp.solutions.get(1));
+			tsp.solutions.set(0, tsp.solutions.get(1));
+		} while (true);
 	}
 }

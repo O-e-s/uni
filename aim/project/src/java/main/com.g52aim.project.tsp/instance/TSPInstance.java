@@ -1,6 +1,5 @@
 package com.g52aim.project.tsp.instance;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -55,7 +54,7 @@ public class TSPInstance implements TSPInstanceInterface {
 
 		return new TSPSolution(repr,
 			getTSPObjectiveFunction().getObjectiveFunctionValue(repr),
-			repr.getNumberOfCities());
+			numberOfCities);
 	}
 
 	@Override
