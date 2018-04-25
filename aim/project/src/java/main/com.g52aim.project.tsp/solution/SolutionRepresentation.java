@@ -5,12 +5,7 @@ import java.util.Arrays;
 import com.g52aim.project.tsp.interfaces.SolutionRepresentationInterface;
 
 /**
- *
  * @author Warren G. Jackson
- *
- * TODO you need to state the Object/other that will be used for representing a solution to the TSP problem.
- * 		For example, boolean[] can be used to represent the binary string for MAX-SAT problems.
- *
  */
 public class SolutionRepresentation implements SolutionRepresentationInterface<int[]> {
 
@@ -34,8 +29,7 @@ public class SolutionRepresentation implements SolutionRepresentationInterface<i
   @Override
 	public SolutionRepresentationInterface<int[]> clone() {
     SolutionRepresentation copy = new SolutionRepresentation();
-    // TODO ensure it's not the same array instance returned
-    copy.setRepresentationOfSolution(getRepresentationOfSolution());
+    copy.setRepresentationOfSolution(solution.clone());
 		return copy;
 	}
 
