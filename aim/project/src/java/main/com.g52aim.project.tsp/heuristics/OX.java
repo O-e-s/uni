@@ -8,9 +8,7 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
 
 /**
- *
  * @author Warren G. Jackson
- *
  */
 public class OX extends HeuristicOperators implements XOHeuristicInterface {
 
@@ -81,10 +79,6 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 		c.setObjectiveFunctionValue(val);
 		return val;
 	}
-
-	/*
-	 * TODO update the methods below to return the correct boolean value.
-	 */
 
 	@Override
 	public boolean isCrossover() {

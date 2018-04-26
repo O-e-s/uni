@@ -7,18 +7,7 @@ import com.g52aim.project.tsp.interfaces.ObjectiveFunctionInterface;
 
 
 /**
- *
  * @author Warren G. Jackson
- *
- * TODO you can add any common functionality here
- *		to save having to re-implement them in all
- *		your other heuristics!
- *		( swapping two cities seems to be popular )
- *
- *
- * If this this concept it new to you, you may want
- * to read this article on inheritance:
- * https://www.tutorialspoint.com/java/java_inheritance.htm
  */
 public class HeuristicOperators {
 

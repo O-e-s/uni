@@ -6,9 +6,7 @@ import com.g52aim.project.tsp.interfaces.HeuristicInterface;
 import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 /**
- *
  * @author Warren G. Jackson
- *
  */
 public class AdjacentSwap extends HeuristicOperators implements HeuristicInterface {
 

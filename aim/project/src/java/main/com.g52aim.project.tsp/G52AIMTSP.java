@@ -26,9 +26,7 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
 
 /**
- *
  * @author Warren G. Jackson
- *
  */
 public class G52AIMTSP extends ProblemDomain {
 
@@ -210,9 +208,8 @@ public class G52AIMTSP extends ProblemDomain {
 
 		System.out.println("before\t"+tsp.solutions.get(0));
 		do {
-			tsp.applyHeuristic(5, 0, 0, 1);
-			System.out.println("after\t"+tsp.solutions.get(1));
-			tsp.solutions.set(0, tsp.solutions.get(1));
+			tsp.applyHeuristic(1, 0, 0);
+			System.out.println("after\t"+tsp.solutions.get(0));
 		} while (true);
 	}
 }

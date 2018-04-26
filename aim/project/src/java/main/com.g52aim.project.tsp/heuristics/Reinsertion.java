@@ -9,9 +9,7 @@ import com.g52aim.project.tsp.interfaces.HeuristicInterface;
 import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 /**
- *
  * @author Warren G. Jackson
- *
  */
 public class Reinsertion extends HeuristicOperators implements HeuristicInterface {
 
@@ -21,7 +19,7 @@ public class Reinsertion extends HeuristicOperators implements HeuristicInterfac
 	}
 
 	@Override
-	public double apply(TSPSolutionInterface solution, double depthOfSearch, double intensityOfMutation) {
+	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
 		// convert representation to list for convenience
 		int[] array = solution.getSolutionRepresentation().getRepresentationOfSolution();
@@ -31,7 +29,7 @@ public class Reinsertion extends HeuristicOperators implements HeuristicInterfac
 		}
 
     double value = solution.getObjectiveFunctionValue();
-    int iters = getNumberOfMutations(intensityOfMutation);
+    int iters = getNumberOfMutations(iom);
 		int cities = repr.size();
 
     for (int i = 0; i < iters; i++) {
