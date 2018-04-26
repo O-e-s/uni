@@ -1,7 +1,12 @@
 package com.g52aim.project.tsp.heuristics;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.g52aim.project.tsp.interfaces.HeuristicInterface;
 import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
@@ -31,13 +36,32 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		// TODO implementation of two-opt swap heuristic
+		// pick two points
+		// take out the inclusive section
+		// reverse that section
+		// reinsert
+		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+
+		int iters = getNumberOfMutations(iom);
+
+		for (int i = 0; i < iters; i++) {
+			int a, b;
+			// choose start/end of subsection
+			a = random.nextInt(repr.length);
+			b = a + random.nextInt(repr.length - a);
+
+			// Copy subsection and reverse it
+			List<Integer> subsection = IntStream.of(Arrays.copyOfRange(repr, a, b+1))
+				.boxed().collect(Collectors.toList());
+			Collections.reverse(subsection);
+
+			// Replace subsection
+			System.arraycopy(subsection.stream().mapToInt(x -> x).toArray(),
+				0, repr, a, b -a +1);
+		}
+
 		return -1;
 	}
-
-	/*
-	 * TODO update the methods below to return the correct boolean value.
-	 */
 
 	@Override
 	public boolean isCrossover() {
