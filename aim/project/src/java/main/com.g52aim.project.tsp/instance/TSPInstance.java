@@ -43,10 +43,10 @@ public class TSPInstance implements TSPInstanceInterface {
 
 		switch (mode) {
 			case RANDOM: {
-				// Make a list in range [0,numberOfCities -1]
+				// Make a list in range [0,numberOfCities)
 				List<Integer> perm = IntStream.range(0, numberOfCities -1).boxed()
 					.collect(Collectors.toList());
-				Collections.shuffle(perm);
+				Collections.shuffle(perm, random);
 				repr.setRepresentationOfSolution(perm.stream().mapToInt(i -> i).toArray());
 				break;
 			}
