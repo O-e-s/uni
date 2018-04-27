@@ -29,52 +29,59 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 			TSPSolutionInterface c, double dos, double iom) {
 		int[] fst = p1.getSolutionRepresentation().getRepresentationOfSolution(),
 					snd = p2.getSolutionRepresentation().getRepresentationOfSolution(),
-					child = c.getSolutionRepresentation().getRepresentationOfSolution();
+					child1 = new int[fst.length],
+					child2 = new int[fst.length];
 
 		int iters = getNumberOfMutations(iom);
 
 		for (int i = 0; i < iters; i++) {
 			int a, b;
 
-			// 50% chance of swapping roles of parents
-			if (random.nextDouble() < .5) {
-				int[] temp = fst;
-				fst = snd;
-				snd = temp;
-			}
-
 			// choose start/end of subsection
-			a = random.nextInt(child.length);
-			b = a + random.nextInt(child.length - a);
-			System.out.println(a +" "+ b);
-			ArrayList<Integer> subsection = new ArrayList<>(b -a);
+			a = random.nextInt(fst.length);
+			b = a + random.nextInt(fst.length - a);
+
+			ArrayList<Integer> sub1 = new ArrayList<>(b -a),
+												 sub2 = new ArrayList<>(b -a);
 			for (int j = a; j <= b; j++) {
-				subsection.add(fst[j]);
+				sub1.add(fst[j]);
+				sub2.add(snd[j]);
 			};
 
-			// copy in subsection of 1st parent
-			System.arraycopy(fst, a, child, a, b -a +1);
+			// copy in subsection of parent
+			System.arraycopy(fst, a, child1, a, b -a +1);
+			System.arraycopy(snd, a, child2, a, b -a +1);
 
-			// loop through 2nd parent, insert missing cities in order
-			// j: index of 2nd parent, k: index of child
-			int j = 0,
-					k = 0;
-			while (j < child.length) {
-				if (k == a) {
+			// make one pass through parents, inserting missing cities into children
+			// pi: index of parent, ci*: index of child respective
+			int ci1 = 0,
+          ci2 = 0;
+			for (int pi = 0; pi < fst.length; pi++) {
+				if (ci1 == a) {
 					// skip the subsection
-					k = b +1;
-					continue;
-				} else if (subsection.contains(snd[j])) {
-					// skip cities in subsection
-					j++;
-					continue;
+					ci1 = b +1;
+				} else if (ci1 >= fst.length || sub1.contains(snd[pi])) {
+          // do nothing if city is in subsection or end is reached
+				} else {
+					// move city from other parent into child
+					child1[ci1] = snd[pi];
+					ci1++;
 				}
 
-				child[k] = snd[j];
-				j++; k++;
+				// same thing for child 2
+				if (ci2 == a) {
+					ci2 = b +1;
+				} else if (ci2 >= fst.length || sub2.contains(fst[pi])) {
+				} else {
+					child2[ci2] = fst[pi];
+				  ci2++;
+				}
 			}
 		}
 
+    // choose child randomly
+		c.getSolutionRepresentation().setRepresentationOfSolution(
+			random.nextBoolean()? child1 : child2);
 		double val = f.getObjectiveFunctionValue(c.getSolutionRepresentation());
 		c.setObjectiveFunctionValue(val);
 		return val;
