@@ -36,10 +36,6 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		// pick two points
-		// take out the inclusive section
-		// reverse that section
-		// reinsert
 		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
 
 		int iters = getNumberOfMutations(iom);
@@ -47,8 +43,8 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 		for (int i = 0; i < iters; i++) {
 			int a, b;
 			// choose start/end of subsection
-			a = random.nextInt(repr.length);
-			b = a + random.nextInt(repr.length - a);
+			a = random.nextInt(repr.length -1);
+			b = a +random.nextInt(repr.length - a -1) +1;
 
 			// Copy subsection and reverse it
 			List<Integer> subsection = IntStream.of(Arrays.copyOfRange(repr, a, b+1))
