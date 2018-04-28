@@ -8,10 +8,8 @@ import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 
 
 /**
- *
  * @author Warren G. Jackson
  * Performs adjacent swap, returning the first solution with strict improvement
- *
  */
 public class NextDescent extends HeuristicOperators implements HeuristicInterface {
 
@@ -23,14 +21,31 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		// TODO implementation of Next Descent using adjacent swap for the
-		//	perturbation operator.
-		return -1;
-	}
+		int iters = getNumberOfMutations(iom);
+		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+		double current = solution.getObjectiveFunctionValue(),
+					 candidate;
 
-	/*
-	 * TODO update the methods below to return the correct boolean value.
-	 */
+		for (int i = 0; i < iters; i++) {
+
+			int start = random.nextInt(repr.length);
+			for (int j = 0; j < repr.length; j++) {
+
+				int index = (start + j) % repr.length;
+				candidate = current + adjacentSwap(repr, index);
+
+				if (candidate < current) {
+					current = candidate;
+					break;
+				} else {
+					adjacentSwap(repr, index, false);
+				}
+			}
+		}
+
+		solution.setObjectiveFunctionValue(current);
+		return current;
+	}
 
 	@Override
 	public boolean isCrossover() {
