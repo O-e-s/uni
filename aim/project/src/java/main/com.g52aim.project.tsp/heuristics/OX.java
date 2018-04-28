@@ -77,6 +77,10 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 					ci2++;
 				}
 			}
+
+			// children are new parents for next iter
+			fst = child1;
+			snd = child2;
 		}
 
 		// choose child randomly
