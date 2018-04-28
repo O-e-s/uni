@@ -27,10 +27,10 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		double current = solution.getObjectiveFunctionValue();
-		double candidate = current;
-		int iters = getDepthOfSearch(dos);
+		double current = solution.getObjectiveFunctionValue(),
+					 candidate;
 		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+		int iters = getDepthOfSearch(dos);
 
 		// shuffle current perturbation, attempt adjacent swaps in the order of
 		// those indices

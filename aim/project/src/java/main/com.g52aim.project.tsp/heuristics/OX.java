@@ -55,13 +55,13 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 			// make one pass through parents, inserting missing cities into children
 			// pi: index of parent, ci*: index of child respective
 			int ci1 = 0,
-          ci2 = 0;
+					ci2 = 0;
 			for (int pi = 0; pi < fst.length; pi++) {
 				if (ci1 == a) {
 					// skip the subsection
 					ci1 = b +1;
 				} else if (ci1 >= fst.length || sub1.contains(snd[pi])) {
-          // do nothing if city is in subsection or end is reached
+					// do nothing if city is in subsection or end is reached
 				} else {
 					// move city from other parent into child
 					child1[ci1] = snd[pi];
@@ -74,12 +74,12 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 				} else if (ci2 >= fst.length || sub2.contains(fst[pi])) {
 				} else {
 					child2[ci2] = fst[pi];
-				  ci2++;
+					ci2++;
 				}
 			}
 		}
 
-    // choose child randomly
+		// choose child randomly
 		c.getSolutionRepresentation().setRepresentationOfSolution(
 			random.nextBoolean()? child1 : child2);
 		double val = f.getObjectiveFunctionValue(c.getSolutionRepresentation());
