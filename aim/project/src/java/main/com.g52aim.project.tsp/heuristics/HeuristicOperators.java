@@ -12,7 +12,7 @@ import com.g52aim.project.tsp.interfaces.ObjectiveFunctionInterface;
 public class HeuristicOperators {
 
 	protected final Random random;
-  protected ObjectiveFunctionInterface f;
+	protected ObjectiveFunctionInterface f;
 
 	public HeuristicOperators(Random random) {
 
@@ -21,7 +21,7 @@ public class HeuristicOperators {
 
 	public void setObjectiveFunction(ObjectiveFunctionInterface f) {
 
-    this.f = f;
+		this.f = f;
 	}
 
 	/**
@@ -40,13 +40,48 @@ public class HeuristicOperators {
 
 	private TreeMap<Double,Integer> dosMap = iomMap;
 
-	public int getNumberOfMutations(double iom) {
+	protected int getNumberOfMutations(double iom) {
 
 		return iomMap.floorEntry(iom).getValue();
 	}
 
-	public int getDepthOfSearch(double dos) {
+	protected int getDepthOfSearch(double dos) {
 
 		return dosMap.floorEntry(dos).getValue();
+	}
+
+	/**
+	 * Perform an adjacent swap with the city at indices a and a+1
+	 * @return delta: The change in objective function value
+	*/
+	protected double adjacentSwap(int[] repr, int a, boolean calc) {
+		double delta = 0;
+		int b = (a +1) % repr.length, // wrap around chosen index +1
+				temp;
+
+		if (calc) {
+			// subtract distance before and after pair from value
+			delta -= f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
+			delta -= f.getCost(repr[b], repr[(b +1) % repr.length]);
+		}
+
+		// swap
+		temp = repr[a];
+		repr[a] = repr[b];
+		repr[b] = temp;
+
+		if (calc) {
+			// add new distance before and after pair
+			delta += f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
+			delta += f.getCost(repr[b], repr[(b +1) % repr.length]);
+		}
+
+		return delta;
+	}
+	/**
+	 * Do ajacentSwap without delta evaluation
+	*/
+	protected double adjacentSwap(int[] repr, int a) {
+		return adjacentSwap(repr, a, true);
 	}
 }

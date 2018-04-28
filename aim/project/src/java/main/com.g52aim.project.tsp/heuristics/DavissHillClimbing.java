@@ -1,6 +1,10 @@
 package com.g52aim.project.tsp.heuristics;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import com.g52aim.project.tsp.heuristics.AdjacentSwap;
 import com.g52aim.project.tsp.interfaces.HeuristicInterface;
@@ -28,32 +32,23 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 		int iters = getDepthOfSearch(dos);
 		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
 
+		// shuffle current perturbation, attempt adjacent swaps in the order of
+		// those indices
+
 		for (int i = 0; i < iters; i++) {
-			int a = random.nextInt(repr.length),
-				b, temp;
-			// wrap around chosen index +1
-			b = (a +1) % repr.length;
+			List<Integer> perm = IntStream.range(0, repr.length -1).boxed()
+				.collect(Collectors.toList());
+			Collections.shuffle(perm, random);
 
-			// subtract distance before and after pair from candidate
-			candidate -= f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
-			candidate -= f.getCost(repr[b], repr[(b +1) % repr.length]);
+			for (int k : perm) {
+				candidate = current + adjacentSwap(repr, k);
 
-			// swap
-			temp = repr[a];
-			repr[a] = repr[b];
-			repr[b] = temp;
-
-			// add new distance before and after pair
-			candidate += f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
-			candidate += f.getCost(repr[b], repr[(b +1) % repr.length]);
-
-			if (candidate <= current) {
-				current = candidate;
-			} else {
-				// undo swap
-				temp = repr[a];
-				repr[a] = repr[b];
-				repr[b] = temp;
+				if (candidate <= current) {
+					current = candidate;
+				} else {
+					// undo swap
+					adjacentSwap(repr, k, false);
+				}
 			}
 		}
 
