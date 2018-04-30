@@ -38,8 +38,8 @@ public class OX extends HeuristicOperators implements XOHeuristicInterface {
 			int a, b;
 
 			// choose start/end of subsection
-			a = random.nextInt(fst.length);
-			b = a + random.nextInt(fst.length - a);
+			a = random.nextInt(fst.length -1);
+			b = a + random.nextInt(fst.length -a -1) +1;
 
 			ArrayList<Integer> sub1 = new ArrayList<>(b -a),
 												 sub2 = new ArrayList<>(b -a);
