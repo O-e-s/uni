@@ -61,16 +61,15 @@ public class TSPInstanceReader implements TSPInstanceReaderInterface {
 		}
 
 		in.close();
-
 		return new TSPInstance(cities, locations, random);
 	}
 
-  private void readNodes(Scanner in, Location[] locations) {
-    in.useDelimiter("\\s*");
-    String val;
-    for (int i = 0; i < locations.length; i++) {
-      in.nextInt();
-      locations[i] = new Location(in.nextFloat(), in.nextFloat());
-    }
-  }
+	private void readNodes(Scanner in, Location[] locations) {
+		in.useDelimiter("\\s+");
+		String val;
+		for (int i = 0; i < locations.length; i++) {
+			in.nextInt();
+			locations[i] = new Location(in.nextDouble(), in.nextDouble());
+		}
+	}
 }
