@@ -52,7 +52,7 @@ public class TSPSolution implements TSPSolutionInterface {
 	@Override
 	public TSPSolution clone() {
 
-		return new TSPSolution(representation, objectiveFunctionValue,
+		return new TSPSolution(representation.clone(), objectiveFunctionValue,
       numberOfCities);
 	}
 
