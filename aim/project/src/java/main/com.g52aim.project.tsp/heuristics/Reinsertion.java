@@ -1,7 +1,7 @@
 package com.g52aim.project.tsp.heuristics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -23,7 +23,7 @@ public class Reinsertion extends HeuristicOperators implements HeuristicInterfac
 
 		// convert representation to list for convenience
 		Integer[] array = solution.getSolutionRepresentation().getRepresentationOfSolution();
-		List<Integer> repr = Arrays.asList(array);
+		ArrayList<Integer> repr = new ArrayList<>(Arrays.asList(array));
 
 		double value = solution.getObjectiveFunctionValue();
 		int iters = getNumberOfMutations(iom);

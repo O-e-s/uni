@@ -55,7 +55,7 @@ public class TSPInstanceReader implements TSPInstanceReaderInterface {
 				default:
 			}
 
-			in.nextLine();
+			if (in.hasNext()) in.nextLine();
 		}
 
 		in.close();
