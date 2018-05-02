@@ -37,7 +37,7 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
 		Integer[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
-
+		double value = solution.getObjectiveFunctionValue();
 		int iters = getNumberOfMutations(iom);
 
 		for (int i = 0; i < iters; i++) {
@@ -46,15 +46,23 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 			a = random.nextInt(repr.length -1);
 			b = a +random.nextInt(repr.length - a -1) +1;
 
-			// Copy subsection and reverse it
+			// subtract cost between first city in selection and city before selection
+			value -= f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
+			// subtract cost between last city in selection and city after selection
+			value -= f.getCost(repr[b], repr[(b +1) % repr.length]);
+
 			List<Integer> subsection = Arrays.asList(repr).subList(a, b+1);
 			Collections.reverse(subsection);
+
+			// add cost between first city in selection and city before selection
+			value += f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
+			// add cost between last city in selection and city after selection
+			value += f.getCost(repr[b], repr[(b +1) % repr.length]);
 
 			// Replace subsection
 			System.arraycopy(subsection.toArray(), 0, repr, a, b -a +1);
 		}
 
-		double value = f.getObjectiveFunctionValue(solution.getSolutionRepresentation());
 		solution.setObjectiveFunctionValue(value);
 		return value;
 	}
