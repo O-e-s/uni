@@ -21,8 +21,8 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		int iters = getNumberOfMutations(iom);
-		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+		int iters = getDepthOfSearch(iom);
+		Integer[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
 		double current = solution.getObjectiveFunctionValue(),
 					 candidate;
 
@@ -31,7 +31,7 @@ public class NextDescent extends HeuristicOperators implements HeuristicInterfac
 			int start = random.nextInt(repr.length);
 			for (int j = 0; j < repr.length; j++) {
 
-				int index = (start + j) % repr.length;
+				int index = (start + j) %repr.length;
 				candidate = current + adjacentSwap(repr, index);
 
 				if (candidate < current) {

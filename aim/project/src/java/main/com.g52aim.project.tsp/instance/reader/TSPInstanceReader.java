@@ -23,8 +23,6 @@ public class TSPInstanceReader implements TSPInstanceReaderInterface {
 	@Override
 	public TSPInstanceInterface readTSPInstance(Path path, Random random) {
 
-		// TODO read TSP instance file to find the number of cities and
-		//		create the array of locations for each city...
 		int cities = -1;
 		Location[] locations = null;
 

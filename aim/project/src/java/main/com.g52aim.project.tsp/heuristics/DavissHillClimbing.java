@@ -29,15 +29,15 @@ public class DavissHillClimbing extends HeuristicOperators implements HeuristicI
 
 		double current = solution.getObjectiveFunctionValue(),
 					 candidate;
-		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+		Integer[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
 		int iters = getDepthOfSearch(dos);
 
 		// shuffle current perturbation, attempt adjacent swaps in the order of
 		// those indices
 
+    List<Integer> perm = IntStream.range(0, repr.length).boxed()
+      .collect(Collectors.toList());
 		for (int i = 0; i < iters; i++) {
-			List<Integer> perm = IntStream.range(0, repr.length -1).boxed()
-				.collect(Collectors.toList());
 			Collections.shuffle(perm, random);
 
 			for (int k : perm) {

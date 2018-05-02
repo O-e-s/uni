@@ -36,7 +36,7 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+		Integer[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
 
 		int iters = getNumberOfMutations(iom);
 
@@ -47,16 +47,16 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 			b = a +random.nextInt(repr.length - a -1) +1;
 
 			// Copy subsection and reverse it
-			List<Integer> subsection = IntStream.of(Arrays.copyOfRange(repr, a, b+1))
-				.boxed().collect(Collectors.toList());
+			List<Integer> subsection = Arrays.asList(repr).subList(a, b+1);
 			Collections.reverse(subsection);
 
 			// Replace subsection
-			System.arraycopy(subsection.stream().mapToInt(x -> x).toArray(),
-				0, repr, a, b -a +1);
+			System.arraycopy(subsection.toArray(), 0, repr, a, b -a +1);
 		}
 
-		return -1;
+		double value = f.getObjectiveFunctionValue(solution.getSolutionRepresentation());
+		solution.setObjectiveFunctionValue(value);
+		return value;
 	}
 
 	@Override

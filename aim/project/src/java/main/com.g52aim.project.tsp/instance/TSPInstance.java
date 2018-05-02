@@ -47,7 +47,7 @@ public class TSPInstance implements TSPInstanceInterface {
 				List<Integer> perm = IntStream.range(0, numberOfCities).boxed()
 					.collect(Collectors.toList());
 				Collections.shuffle(perm, random);
-				repr.setRepresentationOfSolution(perm.stream().mapToInt(i -> i).toArray());
+				repr.setRepresentationOfSolution(perm.toArray(new Integer[perm.size()]));
 				break;
 			}
 		}

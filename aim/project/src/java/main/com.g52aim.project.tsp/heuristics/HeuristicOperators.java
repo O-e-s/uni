@@ -54,7 +54,7 @@ public class HeuristicOperators {
 	 * Perform an adjacent swap with the city at indices a and a+1
 	 * @return delta: The change in objective function value
 	*/
-	protected double adjacentSwap(int[] repr, int a, boolean calc) {
+	protected double adjacentSwap(Integer[] repr, int a, boolean calc) {
 		double delta = 0;
 		int b = (a +1) % repr.length, // wrap around chosen index +1
 				temp;
@@ -79,9 +79,9 @@ public class HeuristicOperators {
 		return delta;
 	}
 	/**
-	 * Do ajacentSwap without delta evaluation
+	 * Do ajacentSwap with delta evaluation
 	*/
-	protected double adjacentSwap(int[] repr, int a) {
+	protected double adjacentSwap(Integer[] repr, int a) {
 		return adjacentSwap(repr, a, true);
 	}
 }

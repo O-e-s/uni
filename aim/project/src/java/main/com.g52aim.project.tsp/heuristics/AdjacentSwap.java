@@ -16,13 +16,14 @@ public class AdjacentSwap extends HeuristicOperators implements HeuristicInterfa
 	}
 
 	@Override
-	public double apply(TSPSolutionInterface solution, double depthOfSearch, double intensityOfMutation) {
+	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
     double value = solution.getObjectiveFunctionValue();
-    int iters = getNumberOfMutations(intensityOfMutation);
-    int[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
+    int iters = getNumberOfMutations(iom);
+    Integer[] repr = solution.getSolutionRepresentation().getRepresentationOfSolution();
     for (int i = 0; i < iters; i++) {
-      value += adjacentSwap(repr, random.nextInt(repr.length));
+      value += adjacentSwap(repr,
+        (random.nextInt(repr.length) + i) %repr.length);
     }
 
     solution.setObjectiveFunctionValue(value);

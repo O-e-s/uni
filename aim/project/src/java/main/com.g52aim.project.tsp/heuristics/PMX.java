@@ -20,16 +20,16 @@ public class PMX extends HeuristicOperators implements XOHeuristicInterface {
 	@Override
 	public double apply(TSPSolutionInterface solution, double dos, double iom) {
 
-		return -1;
+		return solution.getObjectiveFunctionValue();
 	}
 
 	@Override
 	public double apply(TSPSolutionInterface p1, TSPSolutionInterface p2,
 			TSPSolutionInterface c, double dos, double iom) {
-		int[] fst = p1.getSolutionRepresentation().getRepresentationOfSolution(),
+		Integer[] fst = p1.getSolutionRepresentation().getRepresentationOfSolution(),
 					snd = p2.getSolutionRepresentation().getRepresentationOfSolution(),
-					child1 = new int[fst.length],
-					child2 = new int[fst.length];
+					child1 = new Integer[fst.length],
+					child2 = new Integer[fst.length];
 
 		int iters = getNumberOfMutations(iom);
 

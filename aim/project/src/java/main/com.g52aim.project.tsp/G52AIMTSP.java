@@ -1,9 +1,9 @@
 package com.g52aim.project.tsp;
-
-
+import java.awt.Color;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import AbstractClasses.HyperHeuristic;
@@ -24,6 +24,7 @@ import com.g52aim.project.tsp.interfaces.HeuristicInterface;
 import com.g52aim.project.tsp.interfaces.TSPInstanceInterface;
 import com.g52aim.project.tsp.interfaces.TSPSolutionInterface;
 import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
+import com.g52aim.project.tsp.visualiser.TSPView;
 
 /**
  * @author Warren G. Jackson
@@ -31,16 +32,15 @@ import com.g52aim.project.tsp.interfaces.XOHeuristicInterface;
 public class G52AIMTSP extends ProblemDomain {
 
 	private String[] instanceFiles =
-	  {"T81", "circle", "dj38", "plus", "square", "u724"};
+		{"T81", "circle", "dj38", "plus", "square", "u724"};
 
 	private HeuristicInterface[] heuristics = null;
 
 	private TSPInstanceInterface instance = null;
 
 	private TSPSolutionInterface bestSolution = null;
-	private double bestSolutionValue = 0;
 
-	private int memSize;
+	private int memSize = 2;
 	private ArrayList<TSPSolutionInterface> solutions = null;
 
 	public G52AIMTSP(long seed) {
@@ -73,15 +73,23 @@ public class G52AIMTSP extends ProblemDomain {
 	public double applyHeuristic(int hIndex, int currentIndex, int candidateIndex) {
 		TSPSolutionInterface copy = solutions.get(currentIndex).clone();
 		solutions.set(candidateIndex, copy);
-		return heuristics[hIndex].apply(copy, depthOfSearch, intensityOfMutation);
+		double val = heuristics[hIndex].apply(copy, depthOfSearch, intensityOfMutation);
+		if (getBestSolutionValue() > val) {
+			bestSolution = solutions.get(candidateIndex).clone();
+		}
+		return val;
 	}
 
 	@Override
 	public double applyHeuristic(int hIndex, int parent1Index, int parent2Index, int candidateIndex) {
 		initialiseSolution(candidateIndex);
-		return ((XOHeuristicInterface) heuristics[hIndex]).apply(
+		double val = ((XOHeuristicInterface) heuristics[hIndex]).apply(
 				solutions.get(parent1Index), solutions.get(parent2Index),
 				solutions.get(candidateIndex), depthOfSearch, intensityOfMutation);
+		if (getBestSolutionValue() > val) {
+			bestSolution = solutions.get(candidateIndex).clone();
+		}
+		return val;
 	}
 
 	@Override
@@ -105,7 +113,8 @@ public class G52AIMTSP extends ProblemDomain {
 	@Override
 	public double getBestSolutionValue() {
 
-		return bestSolutionValue;
+		return bestSolution == null? Double.POSITIVE_INFINITY
+      : bestSolution.getObjectiveFunctionValue();
 	}
 
 	@Override
@@ -117,8 +126,23 @@ public class G52AIMTSP extends ProblemDomain {
 
 	@Override
 	public int[] getHeuristicsOfType(HeuristicType type) {
+		int a, b;
+		switch (type) {
+			case CROSSOVER:
+				a = 5; b = 6; break;
+			case LOCAL_SEARCH:
+				a = 3; b = 4; break;
+			case MUTATION:
+				a = 0; b = 2; break;
+			default:
+				a = 0; b = 0;
+		}
 
-		return null;
+		int[] res = new int[b-a];
+		for (int i = a; i < b; i++) {
+			res[i-a] = i;
+		}
+		return res;
 	}
 
 	@Override
@@ -147,7 +171,11 @@ public class G52AIMTSP extends ProblemDomain {
 
 	@Override
 	public void initialiseSolution(int index) {
-		solutions.set(index, instance.createSolution(InitialisationMode.RANDOM));
+		TSPSolutionInterface inst = instance.createSolution(InitialisationMode.RANDOM);
+		solutions.set(index, inst);
+		if (getBestSolutionValue() < inst.getObjectiveFunctionValue()) {
+			bestSolution = inst.clone();
+		}
 	}
 
 	@Override
@@ -196,20 +224,32 @@ public class G52AIMTSP extends ProblemDomain {
 	 */
 	public static void main(String [] args) {
 
-		long seed = 5100l;
-		long timeLimit = 10_000;
+		long seed = 51201l;
 		G52AIMTSP tsp = new G52AIMTSP(seed);
 		tsp.loadInstance(3);
-		tsp.setDepthOfSearch(0);
+		HyperHeuristic hh = new SR_IE_HH(seed);
+		hh.setTimeLimit(10_00l);
+		hh.loadProblemDomain(tsp);
+		hh.run();
 
-		tsp.setMemorySize(2);
-		tsp.initialiseSolution(0);
-		tsp.setIntensityOfMutation(0);
+		System.out.println("f(s_best) = " + hh.getBestSolutionValue());
 
-		System.out.println("before\t"+tsp.solutions.get(0));
-		do {
-			tsp.applyHeuristic(1, 0, 0);
-			System.out.println("after\t"+tsp.solutions.get(0));
-		} while (true);
+		// tsp.setMemorySize(2);
+		// tsp.initialiseSolution(0);
+		// tsp.initialiseSolution(1);
+		// tsp.setIntensityOfMutation(0);
+
+		// for (int i = 0; i < 10; i++) {
+			// System.out.println("\narr\t"+tsp.solutions.get(0)+" "+tsp.solutions.get(0).getObjectiveFunctionValue());
+		// 	tsp.applyHeuristic(6, 0, 1, 1);
+		// 	tsp.copySolution(1, 0);
+		// }
+
+		Location[] path = new Location[tsp.instance.getNumberOfCities()];
+		Integer[] repr = tsp.getBestSolution().getSolutionRepresentation().getRepresentationOfSolution();
+		for (int i = 0; i < repr.length; i++) {
+			path[i] = tsp.instance.getLocationForCity(repr[i]);
+		}
+		new TSPView(path, Color.RED, Color.GREEN);
 	}
 }
