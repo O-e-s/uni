@@ -29,13 +29,20 @@ public class SR_IE_HH extends HyperHeuristic {
 		problem.setIntensityOfMutation(0);
 		problem.setDepthOfSearch(0);
 
-		int h = 4;
+		int h = 0;
 		long iteration = 0;
 		boolean accept;
 		System.out.println("Iteration\tf(s)\tf(s')\tAccept");
 
 		while(!hasTimeExpired()) {
 
+			// 0 AdjacentSwap
+			// 1 TwoOpt(rng)
+			// 2 Reinsertion
+			// 3 NextDescent
+			// 4 DavissHillClimbing
+			// 5 OX
+			// 6 PMX
 			h = rng.nextInt(problem.getNumberOfHeuristics());
 			double candidate = problem.applyHeuristic(h, 0, 1);
 

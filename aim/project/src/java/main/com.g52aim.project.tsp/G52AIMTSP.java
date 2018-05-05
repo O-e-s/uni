@@ -17,6 +17,7 @@ import com.g52aim.project.tsp.heuristics.PMX;
 import com.g52aim.project.tsp.heuristics.Reinsertion;
 import com.g52aim.project.tsp.heuristics.TwoOpt;
 import com.g52aim.project.tsp.hyperheuristics.SR_IE_HH;
+import com.g52aim.project.tsp.hyperheuristics.SA_IE_HH;
 import com.g52aim.project.tsp.instance.InitialisationMode;
 import com.g52aim.project.tsp.instance.Location;
 import com.g52aim.project.tsp.instance.reader.TSPInstanceReader;
@@ -32,7 +33,7 @@ import com.g52aim.project.tsp.visualiser.TSPView;
 public class G52AIMTSP extends ProblemDomain {
 
 	private String[] instanceFiles =
-		{"T81", "circle", "dj38", "plus", "square", "u724"};
+		{"T81", "circle", "dj38", "plus", "square", "u724", "example"};
 
 	private HeuristicInterface[] heuristics = null;
 
@@ -114,7 +115,7 @@ public class G52AIMTSP extends ProblemDomain {
 	public double getBestSolutionValue() {
 
 		return bestSolution == null? Double.POSITIVE_INFINITY
-      : bestSolution.getObjectiveFunctionValue();
+			: bestSolution.getObjectiveFunctionValue();
 	}
 
 	@Override
@@ -222,34 +223,23 @@ public class G52AIMTSP extends ProblemDomain {
 	 *
 	 * @param args
 	 */
-	public static void main(String [] args) {
-
-		long seed = 51201l;
+	public static void main(String[] args) {
+		long seed = Long.parseLong(args[0]);
 		G52AIMTSP tsp = new G52AIMTSP(seed);
-		tsp.loadInstance(3);
-		HyperHeuristic hh = new SR_IE_HH(seed);
-		hh.setTimeLimit(10_00l);
+		tsp.loadInstance(0);
+		HyperHeuristic hh = new SA_IE_HH(seed);
+		hh.setTimeLimit(60000l);
 		hh.loadProblemDomain(tsp);
 		hh.run();
 
 		System.out.println("f(s_best) = " + hh.getBestSolutionValue());
-
-		// tsp.setMemorySize(2);
-		// tsp.initialiseSolution(0);
-		// tsp.initialiseSolution(1);
-		// tsp.setIntensityOfMutation(0);
-
-		// for (int i = 0; i < 10; i++) {
-			// System.out.println("\narr\t"+tsp.solutions.get(0)+" "+tsp.solutions.get(0).getObjectiveFunctionValue());
-		// 	tsp.applyHeuristic(6, 0, 1, 1);
-		// 	tsp.copySolution(1, 0);
-		// }
 
 		Location[] path = new Location[tsp.instance.getNumberOfCities()];
 		Integer[] repr = tsp.getBestSolution().getSolutionRepresentation().getRepresentationOfSolution();
 		for (int i = 0; i < repr.length; i++) {
 			path[i] = tsp.instance.getLocationForCity(repr[i]);
 		}
+		SolutionPrinter.printSolution(Arrays.asList(path));
 		new TSPView(path, Color.RED, Color.GREEN);
 	}
 }

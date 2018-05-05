@@ -41,10 +41,9 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 		int iters = getNumberOfMutations(iom);
 
 		for (int i = 0; i < iters; i++) {
-			int a, b;
 			// choose start/end of subsection
-			a = random.nextInt(repr.length -1);
-			b = a +random.nextInt(repr.length - a -1) +1;
+			int a = random.nextInt(repr.length -1);
+			int b = a +random.nextInt(repr.length -a -1) +1;
 
 			// subtract cost between first city in selection and city before selection
 			value -= f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
@@ -58,9 +57,6 @@ public class TwoOpt extends HeuristicOperators implements HeuristicInterface {
 			value += f.getCost(repr[a], repr[Math.floorMod(a -1, repr.length)]);
 			// add cost between last city in selection and city after selection
 			value += f.getCost(repr[b], repr[(b +1) % repr.length]);
-
-			// Replace subsection
-			System.arraycopy(subsection.toArray(), 0, repr, a, b -a +1);
 		}
 
 		solution.setObjectiveFunctionValue(value);
