@@ -3,9 +3,13 @@ import java.awt.Color;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
+import BinPacking.BinPacking;
+import FlowShop.FlowShop;
+import PersonnelScheduling.PersonnelScheduling;
+import SAT.SAT;
+import travelingSalesmanProblem.TSP;
+import VRP.VRP;
 import AbstractClasses.HyperHeuristic;
 import AbstractClasses.ProblemDomain;
 import com.g52aim.project.tsp.heuristics.AdjacentSwap;
@@ -17,7 +21,7 @@ import com.g52aim.project.tsp.heuristics.PMX;
 import com.g52aim.project.tsp.heuristics.Reinsertion;
 import com.g52aim.project.tsp.heuristics.TwoOpt;
 import com.g52aim.project.tsp.hyperheuristics.SR_IE_HH;
-import com.g52aim.project.tsp.hyperheuristics.SA_IE_HH;
+import com.g52aim.project.tsp.hyperheuristics.SA_LM_OI_HH;
 import com.g52aim.project.tsp.instance.InitialisationMode;
 import com.g52aim.project.tsp.instance.Location;
 import com.g52aim.project.tsp.instance.reader.TSPInstanceReader;
@@ -224,22 +228,55 @@ public class G52AIMTSP extends ProblemDomain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		long seed = Long.parseLong(args[0]);
-		G52AIMTSP tsp = new G52AIMTSP(seed);
-		tsp.loadInstance(0);
-		HyperHeuristic hh = new SA_IE_HH(seed);
-		hh.setTimeLimit(60000l);
-		hh.loadProblemDomain(tsp);
-		hh.run();
+		long seed = 905391398051l;
 
-		System.out.println("f(s_best) = " + hh.getBestSolutionValue());
-
-		Location[] path = new Location[tsp.instance.getNumberOfCities()];
-		Integer[] repr = tsp.getBestSolution().getSolutionRepresentation().getRepresentationOfSolution();
-		for (int i = 0; i < repr.length; i++) {
-			path[i] = tsp.instance.getLocationForCity(repr[i]);
+		Class<?> pClass = null;
+		int[] instances = null;
+		switch (Integer.parseInt(args[0])) {
+			case 0:
+				pClass = BinPacking.class;
+				instances = new int[]{1,7,9,10,11};
+				break;
+			case 1:
+				pClass = FlowShop.class;
+				instances = new int[]{1,3,8,10,11};
+				break;
+			case 2:
+				pClass = PersonnelScheduling.class;
+				instances = new int[]{5,8,9,10,11};
+				break;
+			case 3:
+				pClass = SAT.class;
+				instances = new int[]{3,4,5,10,11};
+				break;
+			case 4:
+				pClass = TSP.class;
+				instances = new int[]{0,2,6,7,8};
+				break;
+			case 5:
+				pClass = VRP.class;
+				instances = new int[]{1,2,5,6,9};
 		}
-		SolutionPrinter.printSolution(Arrays.asList(path));
-		new TSPView(path, Color.RED, Color.GREEN);
+
+
+		for (int inst : instances) {
+			ProblemDomain prob = null;
+			try {
+				prob = (ProblemDomain) pClass.getDeclaredConstructor(long.class).newInstance(seed);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			prob.loadInstance(inst);
+			HyperHeuristic hh = new SA_LM_OI_HH(seed);
+			hh.setTimeLimit(300_000l);
+			hh.loadProblemDomain(prob);
+
+			for (int iter = 0; iter < 11; iter++) {
+				hh.run();
+				System.out.print(hh.getBestSolutionValue()+"\t");
+				seed += 1;
+			}
+			System.out.println();
+		}
 	}
 }

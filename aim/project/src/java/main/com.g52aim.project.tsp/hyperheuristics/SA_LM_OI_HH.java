@@ -15,12 +15,12 @@ import AbstractClasses.ProblemDomain;
  * A hyperheuristic applying the concept of Simulated Annealing.
  * Lundy & Mees' method for randomly accepting a worsening solution, with
  * a gradually decreasing probability as the run continues.
- * Some short term memory is used to track the average impact on objective
- * function value that each low-level heuristic caused over the last few times
- * it was applied. The low-level heuristics that cause greater improvement have
- * a greater probability of being selected than the others.
+ * The normal acceptance criterion is an improvement (OI).
+ * Some memory is used to track the total number of times each heuristic
+ * produced a better solution. This is used so that heuristics that more often
+ * produce a better solution have a greater probability of being selected
  */
-public class SA_IE_HH extends HyperHeuristic {
+public class SA_LM_OI_HH extends HyperHeuristic {
 	/**
 	 * Parameters
 	 */
@@ -45,7 +45,7 @@ public class SA_IE_HH extends HyperHeuristic {
 	 */
 	double current;
 
-	public SA_IE_HH(long seed) {
+	public SA_LM_OI_HH(long seed) {
 		super(seed);
 	}
 
@@ -122,7 +122,7 @@ public class SA_IE_HH extends HyperHeuristic {
 	@Override
 	public String toString() {
 
-		return "SA_IE_HH";
+		return "SA_LM_OI_HH";
 	}
 }
 
@@ -132,9 +132,9 @@ class Heuristic {
 	// Heuristic id in problem space
 	public int id;
 	// Parent hyperheuristic instance
-	private SA_IE_HH hh;
+	private SA_LM_OI_HH hh;
 
-	public Heuristic(SA_IE_HH hh, int id) {
+	public Heuristic(SA_LM_OI_HH hh, int id) {
 		this.id = id;
 		this.hh = hh;
 		score = 1; // minimum score is 1
@@ -146,7 +146,6 @@ class Heuristic {
 		if (res -hh.current < 0) {
 			score++;
 		}
-		// System.out.println(id+"\t"+score);
 		return res;
 	}
 }
