@@ -228,7 +228,20 @@ public class G52AIMTSP extends ProblemDomain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		long seed = 905391398051l;
+		long seed = 909348l;
+
+		// G52AIMTSP prob = new G52AIMTSP(seed);
+		// prob.loadInstance(6);
+		// HyperHeuristic hh = new SR_IE_HH(seed);
+		// hh.setTimeLimit(60_000l);
+		// hh.loadProblemDomain(prob);
+		// hh.run();
+		// System.out.println(hh.getBestSolutionValue());
+		// ArrayList<Location> locs = new ArrayList<>();
+		// for (int city : prob.bestSolution.getSolutionRepresentation().getRepresentationOfSolution()) {
+		//	locs.add(prob.instance.getLocationForCity(city));
+		// }
+		// SolutionPrinter.printSolution(locs);
 
 		Class<?> pClass = null;
 		int[] instances = null;
@@ -256,10 +269,9 @@ public class G52AIMTSP extends ProblemDomain {
 			case 5:
 				pClass = VRP.class;
 				instances = new int[]{1,2,5,6,9};
-		}
+		 }
 
-
-		for (int inst : instances) {
+		 for (int inst : instances) {
 			ProblemDomain prob = null;
 			try {
 				prob = (ProblemDomain) pClass.getDeclaredConstructor(long.class).newInstance(seed);
@@ -277,6 +289,6 @@ public class G52AIMTSP extends ProblemDomain {
 				seed += 1;
 			}
 			System.out.println();
-		}
+		 }
 	}
 }

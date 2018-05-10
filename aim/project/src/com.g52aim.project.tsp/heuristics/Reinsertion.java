@@ -32,15 +32,29 @@ public class Reinsertion extends HeuristicOperators implements HeuristicInterfac
 					b = a + random.nextInt(array.length -a -1) +1,
 					temp;
 
+			int beforeA = Math.floorMod(a -1, array.length);
+			int afterA = (a +1) % array.length;
+			int beforeB = Math.floorMod(b -1, array.length);
+			int afterB = (b +1) % array.length;
+
+			// subtract cost before and after removed city, add cost between
+			// both before and after
+			value -= f.getCost(repr.get(a), repr.get(beforeA));
+			value -= f.getCost(repr.get(a), repr.get(afterA));
+			value += f.getCost(repr.get(beforeA), repr.get(afterA));
+
 			// reinsert
-			temp = repr.get(a);
-			repr.remove(a);
+			temp = repr.remove(a);
 			repr.add(b, temp);
+
+			// subtract cost at insertion point, add cost before and after inserted
+			// city both before and after
+			value -= f.getCost(repr.get(beforeB), repr.get(afterB));
+			value += f.getCost(repr.get(b), repr.get(beforeB));
+			value += f.getCost(repr.get(b), repr.get(afterB));
 		}
 
-		solution.getSolutionRepresentation().setRepresentationOfSolution(
-			repr.toArray(array));
-		value = f.getObjectiveFunctionValue(solution.getSolutionRepresentation());
+		repr.toArray(array);
 		solution.setObjectiveFunctionValue(value);
 		return value;
 	}
